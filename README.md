@@ -12,6 +12,43 @@ Every command is now an object that has access to the application through ```$se
 
 These are the base functions. Like ```task```, ```user```, ```password``` and so on.
 
+To create a new DSL function it is necessary to create a new package. This package represent an object.
+
+```perl
+package Rex::Syntax::task {
+  use Data::Dumper;
+
+  use true;
+  use Moose;
+  use namespace::autoclean;
+
+  use Rex::Syntax::Base;
+  use Rex::Rexfile::Task;
+
+  # define a new dsl function named "task"
+  dsl "task";
+
+  # this gets executed if the "task" function is called from a Rexfile.
+  sub execute {
+    my $self = shift;
+    my ( $task_name, @options ) = @_;
+
+    my $code = pop @options;
+
+    my $task = Rex::Rexfile::Task->new(
+      {
+        name        => $task_name,
+        code        => $code,
+        description => "",
+      }
+    );
+
+    $self->app->add_task($task);
+  }
+
+}
+```
+
 ### Resources
 
 Resources are functions that describe a state of a specific *thing* on the server. For example a *file*, a *package* or a *service*.
