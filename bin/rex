@@ -1,0 +1,9 @@
+#!/usr/bin/env perl -w
+
+use strict;
+use warnings;
+
+use Rex;
+
+my $rex = Rex->new;
+$rex->run;
