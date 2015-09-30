@@ -1115,7 +1115,7 @@ sub needs {
 # register needs in main namespace
 {
   my ($caller_pkg) = caller(1);
-  if ( $caller_pkg eq "Rex::CLI" || $caller_pkg eq "main" ) {
+  if ( $caller_pkg && ( $caller_pkg eq "Rex::CLI" || $caller_pkg eq "main" ) ) {
     no strict 'refs';
     *{"main::needs"} = \&needs;
     use strict;
